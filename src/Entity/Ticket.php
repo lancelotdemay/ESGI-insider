@@ -2,15 +2,25 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\PublishedTrait;
+use App\Entity\Traits\SoftDeletedTrait;
+use App\Entity\Traits\SortablePositionTrait;
+use App\Entity\Traits\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TicketRepository")
  */
 class Ticket
 {
+    use TimestampableTrait;
+    use SortablePositionTrait;
+    use PublishedTrait;
+    use SoftDeletedTrait;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -42,6 +52,11 @@ class Ticket
      * @ORM\OneToOne(targetEntity="App\Entity\Task", mappedBy="ticket_id", cascade={"persist", "remove"})
      */
     private $task;
+
+    /**
+     * @GEDMO\Slug(fields="title")
+     * @ORM\Column(type="string", unique="true")
+     */
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="tickets")

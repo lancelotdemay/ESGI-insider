@@ -2,6 +2,10 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\PublishedTrait;
+use App\Entity\Traits\SoftDeletedTrait;
+use App\Entity\Traits\SortablePositionTrait;
+use App\Entity\Traits\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -9,6 +13,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Task
 {
+    use TimestampableTrait;
+    use SortablePositionTrait;
+    use PublishedTrait;
+    use SoftDeletedTrait;
+
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
