@@ -34,12 +34,6 @@ class Ticket
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="tickets")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $user_id;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="ticket_id")
      */
     private $comments;
@@ -48,6 +42,12 @@ class Ticket
      * @ORM\OneToOne(targetEntity="App\Entity\Task", mappedBy="ticket_id", cascade={"persist", "remove"})
      */
     private $task;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="tickets")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
 
     public function __construct()
     {
@@ -76,7 +76,7 @@ class Ticket
         return $this->title;
     }
 
-    public function setTitre(string $title): self
+    public function setTitle(string $title): self
     {
         $this->title = $title;
 
@@ -97,12 +97,12 @@ class Ticket
 
     public function getUserId(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUserId(?User $user_id): self
+    public function setUserId(?User $user): self
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
 
         return $this;
     }
@@ -151,6 +151,18 @@ class Ticket
         if ($this !== $task->getTicketId()) {
             $task->setTicketId($this);
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

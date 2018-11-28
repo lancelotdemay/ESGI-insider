@@ -11,12 +11,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/ticket")
+ * @Route("/ticket", name="app_ticket_")
  */
 class TicketController extends AbstractController
 {
     /**
-     * @Route("/", name="ticket_index", methods="GET")
+     * @Route("/", name="index", methods="GET")
      */
     public function index(TicketRepository $ticketRepository): Response
     {
@@ -24,7 +24,7 @@ class TicketController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="ticket_new", methods="GET|POST")
+     * @Route("/new", name="new", methods="GET|POST")
      */
     public function new(Request $request): Response
     {
@@ -37,7 +37,7 @@ class TicketController extends AbstractController
             $em->persist($ticket);
             $em->flush();
 
-            return $this->redirectToRoute('ticket_index');
+            return $this->redirectToRoute('app_ticket_index');
         }
 
         return $this->render('ticket/new.html.twig', [
@@ -47,7 +47,7 @@ class TicketController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="ticket_show", methods="GET")
+     * @Route("/{id}", name="show", methods="GET")
      */
     public function show(Ticket $ticket): Response
     {
@@ -55,7 +55,7 @@ class TicketController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="ticket_edit", methods="GET|POST")
+     * @Route("/{id}/edit", name="edit", methods="GET|POST")
      */
     public function edit(Request $request, Ticket $ticket): Response
     {
@@ -75,7 +75,7 @@ class TicketController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="ticket_delete", methods="DELETE")
+     * @Route("/{id}", name="delete", methods="DELETE")
      */
     public function delete(Request $request, Ticket $ticket): Response
     {
@@ -85,6 +85,6 @@ class TicketController extends AbstractController
             $em->flush();
         }
 
-        return $this->redirectToRoute('ticket_index');
+        return $this->redirectToRoute('app_ticket_index');
     }
 }
